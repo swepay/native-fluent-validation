@@ -20,15 +20,22 @@ public sealed class ValidationPipelineBehavior<TRequest, TResponse> : IPipelineB
         RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken = default)
     {
-        var validator = _serviceProvider.GetService<INativeValidator<TRequest>>();
+        var validators = _serviceProvider.GetServices<INativeValidator<TRequest>>();
+        List<ValidationFailure>? failures = null;
 
-        if (validator is not null)
+        foreach (var validator in validators)
         {
             var result = validator.Validate(request);
             if (!result.IsValid)
             {
-                throw new ValidationException(result);
+                failures ??= new List<ValidationFailure>();
+                failures.AddRange(result.Errors);
             }
+        }
+
+        if (failures is not null)
+        {
+            throw new ValidationException(new ValidationResult(failures));
         }
 
         return next();

@@ -1,0 +1,24 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: Native.FluentValidation Lambda (Mediator) sample
+
+Globals:
+  Function:
+    Timeout: 10
+    MemorySize: 256
+
+Resources:
+  ValidationFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      Handler: Native.FluentValidation.AwsLambda.Mediator::Native.FluentValidation.AwsLambda.Mediator.Function::Handler
+      Runtime: provided.al2023
+      Architectures:
+        - x86_64
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /users
+            Method: post

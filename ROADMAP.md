@@ -19,12 +19,12 @@
 - **Exemplo AWS Lambda**
   - Handler simples com validação explícita e sem reflection
 
-## 🚧 Próximos passos
-
 - **Fase 3 — Integrações**
-  - NativeMediator (expansões)
-  - NativeLambdaMediator
+  - NativeMediator (builder + múltiplos validators)
+  - NativeLambdaMediator (base para Lambda + DI)
   - Exemplo AWS Lambda completo (deploy tooling)
+
+## 🚧 Próximos passos
 
 - **Fase 4 — Performance & AOT**
   - Publicação Native AOT
@@ -39,3 +39,6 @@
   - Pacotes de regras extras
   - Validação assíncrona (opt-in)
   - Comparativos com FluentValidation
+
+- **Infraestrutura**
+  - Split em repositórios separados para cada pacote
