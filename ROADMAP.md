@@ -33,12 +33,12 @@
   - Gerar `propertyName`
   - Regras estáticas sem boilerplate
 
-## 🚧 Próximos passos
-
 - **Fase 6 — Ecossistema**
   - Pacotes de regras extras
   - Validação assíncrona (opt-in)
   - Comparativos com FluentValidation
+
+## 🚧 Próximos passos
 
 - **Infraestrutura**
   - Split em repositórios separados para cada pacote

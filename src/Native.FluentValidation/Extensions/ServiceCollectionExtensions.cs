@@ -28,6 +28,18 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
+    public static IServiceCollection AddNativeFluentValidationAsync<TRequest, TValidator>(
+        this IServiceCollection services)
+        where TValidator : class, INativeAsyncValidator<TRequest>, new()
+    {
+        ArgumentNullException.ThrowIfNull(services);
+
+        var builder = new NativeFluentValidationBuilder(services);
+        builder.AddAsyncValidator<TRequest, TValidator>();
+
+        return services;
+    }
+
     public static IServiceCollection AddNativeFluentValidation<TRequest, TValidator>(
         this IServiceCollection services)
         where TValidator : class, INativeValidator<TRequest>, new()

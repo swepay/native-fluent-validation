@@ -20,7 +20,16 @@ public sealed class ValidationPipelineBehavior<TRequest, TResponse> : IPipelineB
         RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken = default)
     {
+        return HandleAsync(request, next, cancellationToken);
+    }
+
+    private async ValueTask<TResponse> HandleAsync(
+        TRequest request,
+        RequestHandlerDelegate<TResponse> next,
+        CancellationToken cancellationToken)
+    {
         var validators = _serviceProvider.GetServices<INativeValidator<TRequest>>();
+        var asyncValidators = _serviceProvider.GetServices<INativeAsyncValidator<TRequest>>();
         List<ValidationFailure>? failures = null;
 
         foreach (var validator in validators)
@@ -33,11 +42,21 @@ public sealed class ValidationPipelineBehavior<TRequest, TResponse> : IPipelineB
             }
         }
 
+        foreach (var validator in asyncValidators)
+        {
+            var result = await validator.ValidateAsync(request, cancellationToken);
+            if (!result.IsValid)
+            {
+                failures ??= new List<ValidationFailure>();
+                failures.AddRange(result.Errors);
+            }
+        }
+
         if (failures is not null)
         {
             throw new ValidationException(new ValidationResult(failures));
         }
 
-        return next();
+        return await next();
     }
 }

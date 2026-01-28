@@ -82,6 +82,44 @@ services.AddNativeFluentValidation(builder =>
 
 When a validator is registered, the pipeline throws `ValidationException` on failure.
 
+## Async Validation (opt-in)
+
+Implement `INativeAsyncValidator<T>` when you need async checks:
+
+```csharp
+public sealed class CreateUserAsyncValidator : INativeAsyncValidator<CreateUser>
+{
+    public async ValueTask<ValidationResult> ValidateAsync(
+        CreateUser request,
+        CancellationToken cancellationToken = default)
+    {
+        var failures = new List<ValidationFailure>();
+
+        if (!await _repository.ExistsAsync(request.Email, cancellationToken))
+        {
+            failures.Add(new ValidationFailure(nameof(CreateUser.Email), "NotFound", "Email not found."));
+        }
+
+        return failures.Count == 0 ? ValidationResult.Success : new ValidationResult(failures);
+    }
+}
+```
+
+Register async validators via the builder:
+
+```csharp
+services.AddNativeFluentValidation(builder =>
+{
+    builder.AddAsyncValidator<CreateUser, CreateUserAsyncValidator>();
+});
+```
+
+## Extra Rules Package
+
+Additional rules (regex, ranges, comparisons) live in:
+
+`Native.FluentValidation.ExtraRules`
+
 ## NativeLambdaMediator Integration
 
 Use `LambdaMediatorFunction<TRequest, TResponse>` to run NativeMediator handlers with validation in AWS Lambda:

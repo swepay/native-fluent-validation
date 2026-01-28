@@ -77,7 +77,7 @@ public sealed class RuleBuilder<T, TValue>
         return this;
     }
 
-    internal RuleBuilder<T, TValue> AddRule(IPropertyRule<TValue> rule)
+    public RuleBuilder<T, TValue> AddRule(IPropertyRule<TValue> rule)
     {
         _validators.Add(rule);
         _lastIndex = _validators.Count - 1;

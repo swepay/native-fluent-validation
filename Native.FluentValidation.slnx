@@ -3,6 +3,7 @@
     <Project Path="src/Native.FluentValidation/Native.FluentValidation.csproj" />
     <Project Path="src/Native.FluentValidation.NativeLambdaMediator/Native.FluentValidation.NativeLambdaMediator.csproj" />
     <Project Path="src/Native.FluentValidation.SourceGenerator/Native.FluentValidation.SourceGenerator.csproj" />
+    <Project Path="src/Native.FluentValidation.ExtraRules/Native.FluentValidation.ExtraRules.csproj" />
   </Folder>
   <Folder Name="/99 - Tests/">
     <Project Path="tests/Native.FluentValidation.Tests/Native.FluentValidation.Tests.csproj" />

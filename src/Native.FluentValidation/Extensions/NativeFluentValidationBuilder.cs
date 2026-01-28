@@ -31,4 +31,20 @@ public sealed class NativeFluentValidationBuilder
         _services.AddTransient(factory);
         return this;
     }
+
+    public NativeFluentValidationBuilder AddAsyncValidator<TRequest, TValidator>()
+        where TValidator : class, INativeAsyncValidator<TRequest>, new()
+    {
+        _services.AddTransient<INativeAsyncValidator<TRequest>>(_ => new TValidator());
+        return this;
+    }
+
+    public NativeFluentValidationBuilder AddAsyncValidator<TRequest>(
+        Func<IServiceProvider, INativeAsyncValidator<TRequest>> factory)
+    {
+        ArgumentNullException.ThrowIfNull(factory);
+
+        _services.AddTransient(factory);
+        return this;
+    }
 }

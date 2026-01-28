@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <IsAotCompatible>true</IsAotCompatible>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+
+    <PackageId>Native.FluentValidation.ExtraRules</PackageId>
+    <Version>1.0.1</Version>
+    <Authors>Swepay</Authors>
+    <Description>Extra validation rules for Native.FluentValidation (regex, ranges, and comparisons).</Description>
+    <PackageTags>validation;fluent;native-aot;dotnet;rules;extras</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon>native-fluent-validation.png</PackageIcon>
+    <RepositoryUrl>https://github.com/swepay/native-fluent-validation/tree/main/src/Native.FluentValidation.ExtraRules</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Native.FluentValidation\Native.FluentValidation.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+    <None Include="..\..\native-fluent-validation.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
+</Project>
