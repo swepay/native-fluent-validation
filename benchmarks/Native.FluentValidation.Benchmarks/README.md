@@ -1,6 +1,7 @@
 # Native.FluentValidation Benchmarks
 
 Harness simples para medir throughput da validação sem reflection e com AOT-friendly code paths.
+Inclui comparação com FluentValidation para referência.
 
 ## Como executar
 

@@ -24,6 +24,22 @@ public abstract class NativeValidator<T> : INativeValidator<T>
         return new RuleBuilder<T, TValue>(rule, validators);
     }
 
+    protected RuleBuilder<T, TValue> RuleFor<TValue>(PropertySelector<T, TValue> property)
+    {
+        ArgumentNullException.ThrowIfNull(property.Accessor);
+
+        if (string.IsNullOrWhiteSpace(property.Name))
+        {
+            throw new ArgumentException("Property name must be provided explicitly.", nameof(property));
+        }
+
+        var validators = new List<IPropertyRule<TValue>>();
+        var rule = new Rule<T, TValue>(property.Name, property.Accessor, validators);
+        _rules.Add(rule);
+
+        return new RuleBuilder<T, TValue>(rule, validators);
+    }
+
     public ValidationResult Validate(T instance)
     {
         ArgumentNullException.ThrowIfNull(instance);

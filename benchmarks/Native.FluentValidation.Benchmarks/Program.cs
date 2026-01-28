@@ -1,3 +1,5 @@
+using FluentValidation;
+using Native.FluentValidation.Builders;
 using Native.FluentValidation.Core;
 using System.Diagnostics;
 
@@ -30,10 +32,29 @@ public static class Program
         }
     }
 
+    private sealed class FluentUserValidator : AbstractValidator<User>
+    {
+        public FluentUserValidator()
+        {
+            RuleFor(x => x.Email)
+                .NotEmpty()
+                .EmailAddress();
+
+            RuleFor(x => x.Name)
+                .NotNull()
+                .Length(2, 40);
+
+            RuleFor(x => x.Age)
+                .GreaterThan(17)
+                .Must(age => age < 120);
+        }
+    }
+
     public static void Main()
     {
         const int iterations = 1_000_000;
-        var validator = new UserValidator();
+        var nativeValidator = new UserValidator();
+        var fluentValidator = new FluentUserValidator();
 
         var validUser = new User
         {
@@ -49,27 +70,48 @@ public static class Program
             Age = 10
         };
 
-        Warmup(validator, validUser, invalidUser);
+        Warmup(nativeValidator, fluentValidator, validUser, invalidUser);
 
-        var validElapsed = Measure(validator, validUser, iterations);
-        var invalidElapsed = Measure(validator, invalidUser, iterations);
+        var nativeValidElapsed = MeasureNative(nativeValidator, validUser, iterations);
+        var nativeInvalidElapsed = MeasureNative(nativeValidator, invalidUser, iterations);
+        var fluentValidElapsed = MeasureFluent(fluentValidator, validUser, iterations);
+        var fluentInvalidElapsed = MeasureFluent(fluentValidator, invalidUser, iterations);
 
         Console.WriteLine("Native.FluentValidation Benchmark");
         Console.WriteLine($"Iterations: {iterations:N0}");
-        Console.WriteLine($"Valid total: {validElapsed.TotalMilliseconds:N2} ms");
-        Console.WriteLine($"Invalid total: {invalidElapsed.TotalMilliseconds:N2} ms");
+        Console.WriteLine($"Native Valid total: {nativeValidElapsed.TotalMilliseconds:N2} ms");
+        Console.WriteLine($"Native Invalid total: {nativeInvalidElapsed.TotalMilliseconds:N2} ms");
+        Console.WriteLine($"Fluent Valid total: {fluentValidElapsed.TotalMilliseconds:N2} ms");
+        Console.WriteLine($"Fluent Invalid total: {fluentInvalidElapsed.TotalMilliseconds:N2} ms");
     }
 
-    private static void Warmup(UserValidator validator, User validUser, User invalidUser)
+    private static void Warmup(
+        UserValidator nativeValidator,
+        FluentUserValidator fluentValidator,
+        User validUser,
+        User invalidUser)
     {
         for (var i = 0; i < 10_000; i++)
         {
-            validator.Validate(validUser);
-            validator.Validate(invalidUser);
+            nativeValidator.Validate(validUser);
+            nativeValidator.Validate(invalidUser);
+            fluentValidator.Validate(validUser);
+            fluentValidator.Validate(invalidUser);
         }
     }
 
-    private static TimeSpan Measure(UserValidator validator, User user, int iterations)
+    private static TimeSpan MeasureNative(UserValidator validator, User user, int iterations)
+    {
+        var stopwatch = Stopwatch.StartNew();
+        for (var i = 0; i < iterations; i++)
+        {
+            validator.Validate(user);
+        }
+        stopwatch.Stop();
+        return stopwatch.Elapsed;
+    }
+
+    private static TimeSpan MeasureFluent(FluentUserValidator validator, User user, int iterations)
     {
         var stopwatch = Stopwatch.StartNew();
         for (var i = 0; i < iterations; i++)

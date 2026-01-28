@@ -24,16 +24,16 @@
   - NativeLambdaMediator (base para Lambda + DI)
   - Exemplo AWS Lambda completo (deploy tooling)
 
-## 🚧 Próximos passos
-
 - **Fase 4 — Performance & AOT**
   - Publicação Native AOT
   - Zero warnings de trimming
-  - Benchmarks comparativos
+  - Benchmarks comparativos (Native vs FluentValidation)
 
 - **Fase 5 — Source Generator (Opcional)**
   - Gerar `propertyName`
   - Regras estáticas sem boilerplate
+
+## 🚧 Próximos passos
 
 - **Fase 6 — Ecossistema**
   - Pacotes de regras extras

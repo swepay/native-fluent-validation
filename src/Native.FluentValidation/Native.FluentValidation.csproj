@@ -9,14 +9,14 @@
     <NoWarn>$(NoWarn);1591</NoWarn>
 
     <PackageId>Native.FluentValidation</PackageId>
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
     <Authors>Swepay</Authors>
     <Description>High-performance fluent validation library built for .NET 10 Native AOT. No reflection, no expression trees, no runtime scanning.</Description>
     <PackageTags>validation;fluent;native-aot;dotnet;mediator;cqrs;native-mediator</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageIcon>native-fluent-validation.png</PackageIcon>
-  <RepositoryUrl>https://github.com/swepay/native-fluent-validation/tree/main/src/Native.FluentValidation</RepositoryUrl>
+    <RepositoryUrl>https://github.com/swepay/native-fluent-validation/tree/main/src/Native.FluentValidation</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
