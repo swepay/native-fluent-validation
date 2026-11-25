@@ -48,7 +48,7 @@ jobs:
         run: dotnet pack src/Native.FluentValidation.ExtraRules/Native.FluentValidation.ExtraRules.csproj --no-build --configuration Release --output ./nupkg
 
       - name: Upload NuGet package artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: nuget-package
           path: ./nupkg/*.nupkg
