@@ -33,7 +33,7 @@ jobs:
         run: dotnet publish benchmarks/Native.FluentValidation.Benchmarks/Native.FluentValidation.Benchmarks.csproj --configuration Release --runtime linux-x64 /p:PublishAot=true /p:PublishTrimmed=true /p:TrimMode=full
 
       - name: Upload coverage reports
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v6
         with:
           files: ./tests/**/coverage.cobertura.xml
           fail_ci_if_error: false
